@@ -5,6 +5,8 @@ import { getStudents } from '../redux/actions/getStudents';
 import { getCampuses } from '../redux/actions/getCampuses';
 import { connect } from 'react-redux';
 import { HashRouter as Router, Link, Switch, Route } from 'react-router-dom';
+import SingleCampus from './SingleCampus.jsx';
+import SingleStudent from './SingleStudent.jsx';
 
 class App extends Component {
   componentDidMount() {
@@ -16,15 +18,21 @@ class App extends Component {
     return (
       <Router>
         <nav>
-          <Link to='/students'>Students</Link>
-          <Link to='/campuses'>Campuses</Link>
+          <div id='nav'>
+            <Link to='/' id='snuniversityNav'>
+              SNUniversity
+            </Link>
+            <Link to='/students'>Students</Link>
+            <Link to='/campuses'>Campuses</Link>
+          </div>
         </nav>
         <div>
-          <h1>Welcome to Squirrel University!</h1>
           <Switch>
             <Route exact path='/' component={Students} />
             <Route exact path='/students' component={Students} />
-            <Route path='/campuses' component={Campuses} />
+            <Route exact path='/campuses' component={Campuses} />
+            <Route path='/campuses/:id' component={SingleCampus} />
+            <Route path='/students/:id' component={SingleStudent} />
           </Switch>
         </div>
       </Router>

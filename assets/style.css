@@ -1,9 +1,86 @@
 * {
-  font-family: impact;
+  font-family: 'Trebuchet MS';
   box-sizing: border-box;
 }
 
 nav {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  background-color: #33ccff;
+  font-size: 30px;
+}
+
+#nav {
+  display: flex;
+}
+
+nav a {
+  display: flex;
+  color: white;
+  text-decoration: none;
+  padding: 20px;
+  align-items: center;
+  height: 100%;
+}
+
+nav a:hover {
+  background-color: #28a1c9;
+}
+
+#snuniversityNav {
+  font-size: 60px;
+}
+
+#studentContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#students {
+  align-self: center;
+  display: inline-grid;
+  grid-template-columns: 200px 200px 200px 200px 200px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.student a:hover #studentOverlay {
+  opacity: 1;
+  background-color: #33ccff;
+}
+.student #studentOverlay {
+  position: absolute;
+  text-align: center;
+  transition: 0.4s ease;
+}
+
+#studentOverlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  font-size: 100px;
+}
+
+.student a {
+  transition: 0.5s ease;
+}
+
+.student {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 2px black solid;
+  margin: 5px;
+  position: relative;
 }

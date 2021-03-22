@@ -52,7 +52,7 @@ const Students = db.define('student', {
   },
   imageUrl: {
     type: DataTypes.STRING,
-    defaultValue: 'default-student.jpg',
+    defaultValue: 'http://placekitten.com/128/128',
   },
   gpa: {
     type: DataTypes.DECIMAL(2, 1),
