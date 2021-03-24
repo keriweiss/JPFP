@@ -15,13 +15,13 @@ const SingleStudent = (props) => {
         {firstName} {lastName}
       </h2>
       <img src={imageUrl} />
-      <p>{email}</p>
-      <p>{gpa}</p>
-      <p>Campus</p>
+      <p>Email Address: {email}</p>
+      <p>GPA: {gpa}</p>
       {campus.id ? (
-        <Link to={`/campuses/${campus.id}`}>
-          <p>{campus.name}</p>
-        </Link>
+        <p>
+          Campus:{`\n`}
+          <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
+        </p>
       ) : (
         <p>Student is currently on leave.</p>
       )}

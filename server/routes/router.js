@@ -59,8 +59,8 @@ router.post('/campuses', async (req, res, next) => {
 
 router.post('/students', async (req, res, next) => {
   try {
-    console.log('TESTING POST ROUTE');
-    const { firstName, lastName, email, gpa, campusId } = req.body;
+    const { firstName, lastName, email, gpa } = req.body;
+    const campusId = req.body.campusId ? req.body.campusId : null;
     res.send(
       await Students.create({
         firstName,
@@ -75,15 +75,21 @@ router.post('/students', async (req, res, next) => {
   }
 });
 
-router.delete('/campuses', async (req, res, next) => {
+router.delete('/campuses/:id', async (req, res, next) => {
   try {
+    const campus = await Campuses.findByPk(req.params.id);
+    await campus.destroy();
+    res.sendStatus(204);
   } catch (err) {
     next(err);
   }
 });
 
-router.delete('/students', async (req, res, next) => {
+router.delete('/students/:id', async (req, res, next) => {
   try {
+    const student = await Students.findByPk(req.params.id);
+    await student.destroy();
+    res.sendStatus(204);
   } catch (err) {
     next(err);
   }
