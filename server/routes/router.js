@@ -42,4 +42,65 @@ router.get('/campuses/:id', async (req, res, next) => {
   }
 });
 
+router.post('/campuses', async (req, res, next) => {
+  try {
+    const { name, address, description } = req.body;
+    res.send(
+      await Campuses.create({
+        name,
+        address,
+        description,
+      })
+    );
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/students', async (req, res, next) => {
+  try {
+    console.log('TESTING POST ROUTE');
+    const { firstName, lastName, email, gpa, campusId } = req.body;
+    res.send(
+      await Students.create({
+        firstName,
+        lastName,
+        email,
+        gpa,
+        campusId,
+      })
+    );
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/campuses', async (req, res, next) => {
+  try {
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/students', async (req, res, next) => {
+  try {
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/campuses', async (req, res, next) => {
+  try {
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/students', async (req, res, next) => {
+  try {
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

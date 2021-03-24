@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import StudentCreate from './forms/StudentCreate';
 
 const Students = (props) => {
   return (
@@ -18,6 +19,7 @@ const Students = (props) => {
             </Link>
           </div>
         ))}
+        <StudentCreate />
       </div>
     </div>
   );

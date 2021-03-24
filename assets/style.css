@@ -6,13 +6,15 @@
 nav {
   display: flex;
   justify-content: center;
-  background-color: #33ccff;
+  background-color: #990000;
   font-size: 30px;
 }
 
 #nav {
   display: flex;
 }
+
+/* GLOBAL */
 
 nav a {
   display: flex;
@@ -23,24 +25,96 @@ nav a {
   height: 100%;
 }
 
+h2 {
+  text-align: center;
+}
+
 nav a:hover {
-  background-color: #28a1c9;
+  background-color: #660000;
+}
+
+button {
+  margin: 5px;
+  padding: 10px;
+  background-color: #990000;
+  border: solid black 1px;
+  color: white;
+}
+
+button:hover {
+  background-color: #660000;
+}
+
+input {
+  padding: 5px;
+  margin: 5px;
 }
 
 #snuniversityNav {
   font-size: 60px;
 }
 
-#studentContainer {
+/* CAMPUSES */
+
+#campusesPageContainer,
+.campus a {
+  display: flex;
+  text-align: center;
+  justify-content: space-around;
+}
+
+.campusImgContainer {
+  align-self: center;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  margin: 10px;
+}
+
+.campus a {
   display: flex;
   flex-direction: column;
-  text-align: center;
+  align-content: center;
+  margin: 10px;
+  border: 2px black solid;
+  width: 400px;
 }
+
+#campusTitle {
+  background-color: #990000;
+  color: white;
+  padding: 20px;
+  margin: 0;
+}
+
+#campusesContainer {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+}
+
+.campus:hover #campusTitle {
+  background-color: #660000;
+}
+
+#campusCreate {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  border: 2px black solid;
+  padding: 20px;
+}
+
+/* STUDENTS */
 
 #students {
   align-self: center;
   display: inline-grid;
   grid-template-columns: 200px 200px 200px 200px 200px;
+}
+
+#studentContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -50,7 +124,7 @@ a {
 
 .student a:hover #studentOverlay {
   opacity: 1;
-  background-color: #33ccff;
+  background-color: #990000;
 }
 .student #studentOverlay {
   position: absolute;

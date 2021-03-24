@@ -13,7 +13,7 @@ const Campuses = db.define('campus', {
   },
   imageUrl: {
     type: DataTypes.STRING,
-    defaultValue: 'default-campus.jpg',
+    defaultValue: 'assets/default-campus.jpg',
   },
   address: {
     type: DataTypes.STRING,
