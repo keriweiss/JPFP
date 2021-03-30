@@ -1,16 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { deleteStudent } from '../redux/actions/deleteStudent';
 import StudentCreate from './forms/StudentCreate';
+import StudentFilterSort from './forms/StudentFilterSort';
+import Pagination from './Pagination';
 
 const Students = (props) => {
+  const [displayedStudents, setDisplayedStudents] = useState([]);
+  const [studentAdded, isStudentAdded] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [studentsPerPage, setStudentsPerPage] = useState(10);
+
+  console.log('currentpage', currentPage);
+
+  const initialRender = useRef(1);
+
+  useEffect(() => {
+    if (props.students.length && initialRender.current === 1) {
+      const currentStudents = props.students.slice(
+        (currentPage - 1) * 10,
+        currentPage * 10
+      );
+      initialRender.current += 1;
+      setDisplayedStudents(currentStudents);
+    }
+    if (studentAdded === true) {
+      setDisplayedStudents(props.students);
+      isStudentAdded(false);
+    }
+    if (currentPage === 0) setCurrentPage(1);
+  }, [props]);
+
+  useEffect(() => {
+    if (props.students.length && initialRender.current !== 1) {
+      const currentStudents = props.students.slice(
+        (currentPage - 1) * 10,
+        currentPage * 10
+      );
+      initialRender.current += 1;
+      setDisplayedStudents(currentStudents);
+    }
+  }, [currentPage]);
+
+  //get cur students
+  //students.slice((page-1) * 10, page * 10)
+
   return (
     <div id='studentContainer'>
-      <h2>STUDENTS:</h2>
-      <StudentCreate />
+      <h2>STUDENTS</h2>
+      <StudentCreate isStudentAdded={isStudentAdded} />
+      <StudentFilterSort
+        setDisplayedStudents={setDisplayedStudents}
+        displayedStudents={displayedStudents}
+        setCurrentPage={setCurrentPage}
+      />
       <div id='students'>
-        {props.students.map((student) => (
+        {displayedStudents.map((student) => (
           <div className='studentWithButton' key={student.id}>
             <div className='student'>
               <Link to={`/students/${student.id}`}>
@@ -32,6 +78,11 @@ const Students = (props) => {
           </div>
         ))}
       </div>
+      <Pagination
+        studentsPerPage={studentsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };

@@ -4,10 +4,10 @@ const axios = require('axios');
 
 const getStudent = async () => {
   const studentImgs = (
-    await axios.get('https://randomuser.me/api/?results=500&inc=picture')
+    await axios.get('https://randomuser.me/api/?results=800&inc=picture')
   ).data;
   const { name, internet, random } = faker;
-  let students = new Array(50).fill(null).map((studentObj) => {
+  let students = new Array(500).fill(null).map((studentObj) => {
     let img =
       studentImgs.results[
         Math.floor(Math.random() * studentImgs.results.length)

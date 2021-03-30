@@ -3,77 +3,81 @@ import { connect } from 'react-redux';
 import { createStudent } from '../../redux/actions/createStudent';
 
 const StudentCreate = (props) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [gpa, setGpa] = useState('');
-  const [campusId, setcampusId] = useState(null);
+  const defaultNewStudent = {
+    firstName: '',
+    lastName: '',
+    campusId: '',
+    email: '',
+    gpa: '',
+  };
+
+  const [newStudent, setNewStudent] = useState(defaultNewStudent);
   const [isClicked, setIsClicked] = useState(false);
 
   const initialRender = useRef(true);
 
   useEffect(() => {
     if (initialRender.current) {
-      initialRender.current = !initialRender.current;
+      initialRender.current = false;
     } else {
-      props.createStudent({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        gpa: gpa * 1,
-        campusId: campusId * 1,
-      });
-      setFirstName('');
-      setLastName('');
-      setEmail('');
-      setGpa('');
-      setcampusId('Select Campus');
+      if (newStudent.gpa === '') newStudent.gpa = null;
+      if (newStudent.campusId === '') newStudent.campusId = null;
+      props.createStudent(newStudent);
+      setNewStudent(defaultNewStudent);
+      props.isStudentAdded(true);
     }
   }, [isClicked]);
+
   return (
     <form id='studentCreate'>
       <div>
-        <label>First Name:</label>
         <input
+          placeholder='FIRST NAME'
           name='firstName'
-          value={firstName}
-          size='15'
-          onChange={(e) => setFirstName(e.target.value)}
+          value={newStudent.firstName}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, firstName: e.target.value })
+          }
         />
-        <label>Last Name:</label>
         <input
+          placeholder='LAST NAME'
           name='lastName'
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          value={newStudent.lastName}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, lastName: e.target.value })
+          }
         />
       </div>
       <div>
-        <label>Email Address:</label>
         <input
+          placeholder='EMAIL'
           name='email'
-          value={email}
-          size='40'
-          onChange={(e) => setEmail(e.target.value)}
+          value={newStudent.email}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, email: e.target.value })
+          }
         />
       </div>
       <div>
-        <label>GPA (leave blank for new student):</label>
         <input
+          placeholder='GPA'
           name='gpa'
-          value={gpa}
-          size='3'
+          type='number'
+          step='.1'
+          value={newStudent.gpa}
           maxLength='3'
-          onChange={(e) => setGpa(e.target.value)}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, gpa: e.target.value * 1 })
+          }
         />
-      </div>
-      <div>
-        <label>Campus: </label>
+
         <select
-          onChange={(e) => {
-            setcampusId(e.target.value);
-          }}
+          value={newStudent.campusId}
+          onChange={(e) =>
+            setNewStudent({ ...newStudent, campusId: e.target.value * 1 })
+          }
         >
-          <option value={null}>Select Campus</option>
+          <option value='selectCampus'>Select Campus</option>
           {props.campuses.map((campus) => (
             <option value={`${campus.id}`} key={`campus${campus.id}`}>
               {campus.name}

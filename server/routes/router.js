@@ -6,7 +6,10 @@ router.use(express.json());
 
 router.get('/students', async (req, res, next) => {
   try {
-    res.send(await Students.findAll());
+    const page = req.query.page;
+    const students = await Students.findAll();
+    const studentResult = students.slice((page - 1) * 10, page * 10);
+    res.send({ students: studentResult, length: students.length });
   } catch (err) {
     next(err);
   }
@@ -14,7 +17,12 @@ router.get('/students', async (req, res, next) => {
 
 router.get('/campuses', async (req, res, next) => {
   try {
-    res.send(await Campuses.findAll());
+    const page = req.query.page;
+    const campuses = await Campuses.findAll({
+      include: [Students],
+    });
+    const campusResult = campuses.slice((page - 1) * 10, page * 10);
+    res.send(campusResult);
   } catch (err) {
     next(err);
   }
@@ -95,15 +103,27 @@ router.delete('/students/:id', async (req, res, next) => {
   }
 });
 
-router.put('/campuses', async (req, res, next) => {
+router.put('/campuses/:id', async (req, res, next) => {
   try {
+    const campus = await Campuses.findByPk(req.params.id);
+    const { name, address, description } = req.body;
+    await campus.update({ name, address, description });
+    res.status(200).send(campus);
   } catch (err) {
     next(err);
   }
 });
 
-router.put('/students', async (req, res, next) => {
+router.put('/students/:id', async (req, res, next) => {
   try {
+    const { firstName, lastName, email, gpa, campusId, campus } = req.body;
+    const student = await Students.findByPk(req.params.id, {
+      include: [Campuses],
+    });
+    console.log('first', student);
+    await student.update({ firstName, lastName, email, gpa, campusId, campus });
+    console.log(student);
+    res.status(200).send(student);
   } catch (err) {
     next(err);
   }

@@ -12,7 +12,7 @@ const createCampus = (newCampus) => {
 const _createCampus = (campusCreated) => {
   return {
     type: CREATE_CAMPUS,
-    campusCreated,
+    campusCreated: { ...campusCreated, students: [] },
   };
 };
 

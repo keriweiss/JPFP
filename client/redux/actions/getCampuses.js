@@ -4,7 +4,15 @@ const GET_CAMPUSES = 'GET_CAMPUSES';
 
 const getCampuses = () => {
   return async (dispatch) => {
-    const campuses = (await axios.get('/api/campuses')).data;
+    const getCampuses = async (pageNo = 1) => {
+      const results = (await axios.get(`/api/campuses?page=${pageNo}`)).data;
+      if (results.length) {
+        return results.concat(await getCampuses(pageNo + 1));
+      } else {
+        return results;
+      }
+    };
+    const campuses = await getCampuses();
     dispatch(_getCampuses(campuses));
   };
 };
