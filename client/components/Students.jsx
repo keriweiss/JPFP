@@ -11,6 +11,7 @@ const Students = (props) => {
   const [studentAdded, isStudentAdded] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [studentsPerPage, setStudentsPerPage] = useState(10);
+  const [studentPool, setStudentPool] = useState([]);
 
   console.log('currentpage', currentPage);
 
@@ -27,12 +28,14 @@ const Students = (props) => {
     }
     if (studentAdded === true) {
       setDisplayedStudents(props.students);
+      setCurrentPage(0);
       isStudentAdded(false);
     }
     if (currentPage === 0) setCurrentPage(1);
   }, [props]);
 
   useEffect(() => {
+    if (currentPage === 0) setCurrentPage(1);
     if (props.students.length && initialRender.current !== 1) {
       const currentStudents = props.students.slice(
         (currentPage - 1) * 10,
@@ -54,6 +57,7 @@ const Students = (props) => {
         setDisplayedStudents={setDisplayedStudents}
         displayedStudents={displayedStudents}
         setCurrentPage={setCurrentPage}
+        setStudentPool={setStudentPool}
       />
       <div id='students'>
         {displayedStudents.map((student) => (

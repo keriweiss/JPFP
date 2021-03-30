@@ -9,7 +9,7 @@ const studentsReducer = (state = [], action) => {
     return (state = action.students);
   }
   if (action.type === CREATE_STUDENT) {
-    return [...state, action.createdStudent];
+    return [action.createdStudent, ...state];
   }
   if (action.type === DELETE_STUDENT) {
     return state.filter((student) => student.id !== action.studentId);

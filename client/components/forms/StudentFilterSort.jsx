@@ -39,42 +39,71 @@ const StudentFilterSort = (props) => {
       props.setDisplayedStudents(
         props.displayedStudents.slice().sort((a, b) => (a.gpa > b.gpa ? -1 : 1))
       );
+    if (basis.includes('search')) {
+      const student = props.students.filter((student) => {
+        const name = `${student.firstName} ${student.lastName}`;
+        return name.toLowerCase().includes(basis.slice(7).toLowerCase());
+      });
+      props.setDisplayedStudents(student);
+    }
   }, [basis]);
 
   return (
     <div id='allStudentsSelect'>
-      <div id='filter'>
-        FILTER |
-        <select
-          id='studentFilter'
-          onChange={(e) => {
-            setBasis(e.target.value);
-            // props.setCurrentPage(0);
-            // location = '#/students?page=1';
-          }}
+      <div id='search'>
+        <label
+          id='searchSubmit'
+          // onClick={(e) => {
+          //   setBasis('search:' + e.target.value);
+          //   console.log(e.target.value);
+          // }}
         >
-          <option value='all'>All</option>
-          <option value='registered'>Registered Students</option>
-          <option value='unregistered'>Unregistered Students</option>
-        </select>
+          SEARCH |
+          <input
+            type='text'
+            // placeholder='Search'
+            name='search'
+            defaultValue=''
+            onChange={(e) => setBasis('search:' + e.target.value)}
+          />
+        </label>
+      </div>
+      <div id='filter'>
+        <label id='filterSubmit'>
+          FILTER |
+          <select
+            id='studentFilter'
+            onChange={(e) => {
+              setBasis(e.target.value);
+              // props.setCurrentPage(0);
+              // location = '#/students?page=1';
+            }}
+          >
+            <option value='all'>All</option>
+            <option value='registered'>Registered Students</option>
+            <option value='unregistered'>Unregistered Students</option>
+          </select>
+        </label>
       </div>
       <div id='sort'>
-        SORT |
-        <select
-          id='studentSort'
-          onChange={(e) => {
-            props.filterSortStudent(e.target.value, props.students);
-            setBasis(e.target.value);
-            props.setCurrentPage(0);
-            location = '#/students?page=1';
-          }}
-        >
-          <option>Sort By</option>
-          <option value='firstName'>First Name</option>
-          <option value='lastName'>Last Name</option>
-          <option value='gpa ascending'>GPA (ascending)</option>
-          <option value='gpa descending'>GPA (descending)</option>
-        </select>
+        <label id='sortSubmit'>
+          SORT |
+          <select
+            id='studentSort'
+            onChange={(e) => {
+              props.filterSortStudent(e.target.value, props.students);
+              setBasis(e.target.value);
+              props.setCurrentPage(0);
+              location = '#/students?page=1';
+            }}
+          >
+            <option>Sort By</option>
+            <option value='firstName'>First Name</option>
+            <option value='lastName'>Last Name</option>
+            <option value='gpa ascending'>GPA (ascending)</option>
+            <option value='gpa descending'>GPA (descending)</option>
+          </select>
+        </label>
       </div>
     </div>
   );
