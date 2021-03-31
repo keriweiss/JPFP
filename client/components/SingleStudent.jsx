@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import { HashRouter as Route, Link, Switch, Router } from 'react-router-dom';
 import { getSingleStudent } from '../redux/actions/getSingleStudent';
 import StudentUpdate from './forms/StudentUpdate';
+import PageNotFound from './PageNotFound';
 
 const SingleStudent = (props) => {
   useEffect(() => {
     props.getSingleStudent(props.match.params.id);
   }, []);
+  console.log('props', props);
   const { firstName, lastName, imageUrl, email, gpa } = props.student;
   const campus = props.student.campus || {};
-  return (
+  return campus.id ? (
     <div id='singleStudentContainer'>
       <div id='singleStudent'>
         <h2>
@@ -38,6 +40,8 @@ const SingleStudent = (props) => {
       </div>
       <StudentUpdate />
     </div>
+  ) : (
+    <PageNotFound />
   );
 };
 

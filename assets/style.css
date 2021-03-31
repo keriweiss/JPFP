@@ -2,6 +2,7 @@
   font-family: 'Trebuchet MS';
   box-sizing: border-box;
 }
+
 html,
 body,
 #main {
@@ -271,6 +272,7 @@ a {
   border: 2px solid #a02222;
   padding: 5px;
   align-content: center;
+  margin-bottom: 10px;
 }
 
 #studentUpdate button {
@@ -374,13 +376,32 @@ a {
   outline: none;
 }
 
+/* PAGINATION */
+
 #pages {
   display: flex;
+  margin-bottom: 20px;
 }
 
 .page {
-  font-size: small;
+  font-size: medium;
   margin: 5px;
+}
+
+#pages a:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.pagePointer:hover {
+  color: #801c1c;
+}
+
+.pagePointer {
+  margin: 0 5px 0 5px;
+}
+
+.currentPage {
+  color: #a02222;
 }
 
 .page:hover {
@@ -490,5 +511,18 @@ a {
 #filterSubmit:hover,
 #sortSubmit:hover {
   color: #801c1c;
-  cursor: curser;
+  cursor: text;
+}
+
+/* LOADER */
+#loading {
+  width: 400px;
+  text-align: center;
+  color: #a02222;
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 200px);
+  font-weight: bolder;
+  font-size: x-large;
+  letter-spacing: 0.8em;
 }

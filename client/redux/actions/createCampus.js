@@ -4,8 +4,12 @@ const CREATE_CAMPUS = 'CREATE_CAMPUS';
 
 const createCampus = (newCampus) => {
   return async (dispatch) => {
-    const campusCreated = (await axios.post('/api/campuses', newCampus)).data;
-    dispatch(_createCampus(campusCreated));
+    try {
+      const campusCreated = (await axios.post('/api/campuses', newCampus)).data;
+      dispatch(_createCampus(campusCreated));
+    } catch (err) {
+      console.error(err);
+    }
   };
 };
 

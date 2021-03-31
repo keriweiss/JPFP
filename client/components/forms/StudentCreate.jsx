@@ -24,7 +24,7 @@ const StudentCreate = (props) => {
       if (newStudent.campusId === '') newStudent.campusId = null;
       props.createStudent(newStudent);
       setNewStudent(defaultNewStudent);
-      props.isStudentAdded(true);
+      props.isStudentChanged(true);
     }
   }, [isClicked]);
 

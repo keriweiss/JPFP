@@ -8,56 +8,67 @@ import Pagination from './Pagination';
 
 const Students = (props) => {
   const [displayedStudents, setDisplayedStudents] = useState([]);
-  const [studentAdded, isStudentAdded] = useState();
+  const [studentChanged, isStudentChanged] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [studentsPerPage, setStudentsPerPage] = useState(10);
   const [studentPool, setStudentPool] = useState([]);
 
-  console.log('currentpage', currentPage);
-
   const initialRender = useRef(1);
 
+  //handles URL queries
+  useEffect(() => {
+    const params = new URLSearchParams(props.location.search);
+    let pageNum = parseInt(params.get('page'));
+    pageNum > Math.ceil(props.students.length / studentsPerPage)
+      ? (location = '#/students?page=1')
+      : setCurrentPage(props.location.search ? pageNum : 1);
+  }, [props.location.search]);
+
+  //handles changes is props.students
   useEffect(() => {
     if (props.students.length && initialRender.current === 1) {
-      const currentStudents = props.students.slice(
-        (currentPage - 1) * 10,
-        currentPage * 10
-      );
+      setStudentPool(props.students);
       initialRender.current += 1;
-      setDisplayedStudents(currentStudents);
+      setDisplayedStudents(
+        studentPool.slice((currentPage - 1) * 10, currentPage * 10)
+      );
     }
-    if (studentAdded === true) {
-      setDisplayedStudents(props.students);
+    if (studentChanged === true) {
+      setStudentPool(props.students);
+      setDisplayedStudents(
+        studentPool.slice((currentPage - 1) * 10, currentPage * 10)
+      );
       setCurrentPage(0);
-      isStudentAdded(false);
+      isStudentChanged(false);
     }
     if (currentPage === 0) setCurrentPage(1);
-  }, [props]);
+  }, [props.students]);
 
+  //handles changes to current page
   useEffect(() => {
     if (currentPage === 0) setCurrentPage(1);
     if (props.students.length && initialRender.current !== 1) {
-      const currentStudents = props.students.slice(
-        (currentPage - 1) * 10,
-        currentPage * 10
+      setDisplayedStudents(
+        studentPool.slice((currentPage - 1) * 10, currentPage * 10)
       );
-      initialRender.current += 1;
-      setDisplayedStudents(currentStudents);
     }
   }, [currentPage]);
 
-  //get cur students
-  //students.slice((page-1) * 10, page * 10)
+  //handles changes to student pool (filtering and sorting change the pool)
+  useEffect(() => {
+    setDisplayedStudents(
+      studentPool.slice((currentPage - 1) * 10, currentPage * 10)
+    );
+  }, [studentPool]);
 
   return (
     <div id='studentContainer'>
       <h2>STUDENTS</h2>
-      <StudentCreate isStudentAdded={isStudentAdded} />
+      <StudentCreate isStudentChanged={isStudentChanged} />
       <StudentFilterSort
-        setDisplayedStudents={setDisplayedStudents}
-        displayedStudents={displayedStudents}
         setCurrentPage={setCurrentPage}
         setStudentPool={setStudentPool}
+        studentPool={studentPool}
       />
       <div id='students'>
         {displayedStudents.map((student) => (
@@ -74,7 +85,9 @@ const Students = (props) => {
             <button
               type='button'
               onClick={() => {
+                console.log('id', student.id);
                 props.deleteStudent(student.id);
+                isStudentChanged(true);
               }}
             >
               Remove Student
@@ -86,6 +99,7 @@ const Students = (props) => {
         studentsPerPage={studentsPerPage}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
+        studentPool={studentPool}
       />
     </div>
   );

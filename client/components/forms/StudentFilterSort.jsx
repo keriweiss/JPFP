@@ -5,46 +5,53 @@ import { filterSortStudent } from '../../redux/actions/filterSortStudent';
 const StudentFilterSort = (props) => {
   const [basis, setBasis] = useState('');
 
+  //filters and sorts students, and search for student/(s). Feature: filter sorted students and sort filtered students.
   useEffect(() => {
     if (basis === 'registered')
-      props.setDisplayedStudents(
+      props.setStudentPool(
         props.students.filter((student) => student.campusId)
       );
     if (basis === 'unregistered')
-      props.setDisplayedStudents(
+      props.setStudentPool(
         props.students.filter((student) => student.campusId === null)
       );
-    if (basis === 'all') props.setDisplayedStudents(props.students);
-    if (basis === 'lastName')
-      props.setDisplayedStudents(
-        props.displayedStudents
+    if (basis === 'all') props.setStudentPool(props.students);
+    if (basis === 'lastName') {
+      console.log('sort');
+      props.setStudentPool(
+        props.studentPool
           .slice()
-          .sort((a, b) => (a.lastName < b.lastName ? -1 : 1))
+          .sort((a, b) =>
+            a.lastName.toLowerCase() < b.lastName.toLowerCase() ? -1 : 1
+          )
       );
+    }
     if (basis === 'firstName')
-      props.setDisplayedStudents(
-        props.displayedStudents
+      props.setStudentPool(
+        props.studentPool
           .slice()
-          .sort((a, b) => (a.firstName < b.firstName ? -1 : 1))
+          .sort((a, b) =>
+            a.firstName.toLowerCase() < b.firstName.toLowerCase() ? -1 : 1
+          )
       );
     if (basis === 'gpa ascending') {
-      props.setDisplayedStudents(
-        props.displayedStudents.slice().sort((a, b) => (a.gpa < b.gpa ? -1 : 1))
+      props.setStudentPool(
+        props.studentPool.slice().sort((a, b) => (a.gpa < b.gpa ? -1 : 1))
       );
-      props.setDisplayedStudents(
-        props.displayedStudents.slice().sort((a, b) => (a.gpa < b.gpa ? -1 : 1))
+      props.setStudentPool(
+        props.studentPool.slice().sort((a, b) => (a.gpa < b.gpa ? -1 : 1))
       );
     }
     if (basis === 'gpa descending')
-      props.setDisplayedStudents(
-        props.displayedStudents.slice().sort((a, b) => (a.gpa > b.gpa ? -1 : 1))
+      props.setStudentPool(
+        props.studentPool.slice().sort((a, b) => (a.gpa > b.gpa ? -1 : 1))
       );
     if (basis.includes('search')) {
       const student = props.students.filter((student) => {
         const name = `${student.firstName} ${student.lastName}`;
         return name.toLowerCase().includes(basis.slice(7).toLowerCase());
       });
-      props.setDisplayedStudents(student);
+      props.setStudentPool(student);
     }
   }, [basis]);
 
@@ -61,7 +68,6 @@ const StudentFilterSort = (props) => {
           SEARCH |
           <input
             type='text'
-            // placeholder='Search'
             name='search'
             defaultValue=''
             onChange={(e) => setBasis('search:' + e.target.value)}
@@ -75,8 +81,7 @@ const StudentFilterSort = (props) => {
             id='studentFilter'
             onChange={(e) => {
               setBasis(e.target.value);
-              // props.setCurrentPage(0);
-              // location = '#/students?page=1';
+              location = '#/students?page=1';
             }}
           >
             <option value='all'>All</option>
@@ -93,7 +98,6 @@ const StudentFilterSort = (props) => {
             onChange={(e) => {
               props.filterSortStudent(e.target.value, props.students);
               setBasis(e.target.value);
-              props.setCurrentPage(0);
               location = '#/students?page=1';
             }}
           >

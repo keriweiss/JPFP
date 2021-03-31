@@ -4,10 +4,14 @@ const UPDATE_STUDENT = 'UPDATE_STUDENT';
 
 const updateStudent = (student) => {
   return async (dispatch) => {
-    const studentToUpdate = (
-      await axios.put(`/api/students/${student.id}`, student)
-    ).data;
-    dispatch(_updateStudent(studentToUpdate));
+    try {
+      const studentToUpdate = (
+        await axios.put(`/api/students/${student.id}`, student)
+      ).data;
+      dispatch(_updateStudent(studentToUpdate));
+    } catch (err) {
+      console.error(err);
+    }
   };
 };
 

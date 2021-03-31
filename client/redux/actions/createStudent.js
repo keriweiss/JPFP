@@ -4,8 +4,12 @@ const CREATE_STUDENT = 'CREATE_STUDENT';
 
 const createStudent = (student) => {
   return async (dispatch) => {
-    const createdStudent = (await axios.post('/api/students', student)).data;
-    dispatch(_createStudent(createdStudent));
+    try {
+      const createdStudent = (await axios.post('/api/students', student)).data;
+      dispatch(_createStudent(createdStudent));
+    } catch (err) {
+      console.error(err);
+    }
   };
 };
 

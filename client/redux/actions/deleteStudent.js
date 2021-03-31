@@ -4,8 +4,12 @@ const DELETE_STUDENT = 'DELETE_STUDENT';
 
 const deleteStudent = (studentId) => {
   return async (dispatch) => {
-    await axios.delete(`/api/students/${studentId}`);
-    dispatch(_deleteStudent(studentId));
+    try {
+      await axios.delete(`/api/students/${studentId}`);
+      dispatch(_deleteStudent(studentId));
+    } catch (err) {
+      console.error(err);
+    }
   };
 };
 

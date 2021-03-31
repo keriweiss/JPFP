@@ -10,13 +10,15 @@ const CampusCreate = (props) => {
     students: [],
   });
   const [isClicked, setIsClicked] = useState(false);
+  const [required, setRequired] = useState(true);
 
   const initialRender = useRef(true);
+  const isEnabled = newCampus.name && newCampus.address;
 
   useEffect(() => {
     if (initialRender.current) {
       initialRender.current = false;
-    } else {
+    } else if (newCampus.name && newCampus.address) {
       props.createCampus(newCampus);
       setNewCampus({ name: '', address: '', description: '' });
       props.isCampusAdded(true);
@@ -26,7 +28,7 @@ const CampusCreate = (props) => {
     <div>
       <h4>Add Campus</h4>
       <form id='campusCreate' encType='multipart/form-data'>
-        <label>Campus Name: (required)</label>
+        <label>Campus Name</label>
         <input
           placeholder='required'
           name='campusName'
@@ -54,11 +56,16 @@ const CampusCreate = (props) => {
         <button
           type='button'
           onClick={() => {
+            if (!isEnabled) setRequired(false);
+            if (isEnabled) setRequired(true);
             setIsClicked(!isClicked);
           }}
         >
           Add Campus
         </button>
+        {!required ? (
+          <div>Please fill out all required fields (name and address).</div>
+        ) : null}
       </form>
     </div>
   );

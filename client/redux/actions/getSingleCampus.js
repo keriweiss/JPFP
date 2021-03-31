@@ -4,8 +4,12 @@ const GET_SINGLE_CAMPUS = 'GET_SINGLE_CAMPUS';
 
 const getSingleCampus = (campusId) => {
   return async (dispatch) => {
-    const campus = (await axios.get(`/api/campuses/${campusId}`)).data;
-    dispatch(_getSingleCampus(campus));
+    try {
+      const campus = (await axios.get(`/api/campuses/${campusId}`)).data;
+      dispatch(_getSingleCampus(campus));
+    } catch (err) {
+      console.error(err);
+    }
   };
 };
 

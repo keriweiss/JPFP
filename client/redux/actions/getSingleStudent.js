@@ -4,8 +4,12 @@ const GET_SINGLE_STUDENT = 'GET_SINGLE_STUDENT';
 
 const getSingleStudent = (studentId) => {
   return async (dispatch) => {
-    const student = (await axios.get(`/api/students/${studentId}`)).data;
-    dispatch(_getSingleStudent(student));
+    try {
+      const student = (await axios.get(`/api/students/${studentId}`)).data;
+      dispatch(_getSingleStudent(student));
+    } catch (err) {
+      console.error(err);
+    }
   };
 };
 

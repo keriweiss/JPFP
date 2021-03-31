@@ -4,10 +4,14 @@ const UPDATE_CAMPUS = 'UPDATE_CAMPUS';
 
 const updateCampus = (campusToUpdate) => {
   return async (dispatch) => {
-    const campus = (
-      await axios.put(`/api/campuses/${campusToUpdate.id}`, campusToUpdate)
-    ).data;
-    dispatch(_updateCampus(campus));
+    try {
+      const campus = (
+        await axios.put(`/api/campuses/${campusToUpdate.id}`, campusToUpdate)
+      ).data;
+      dispatch(_updateCampus(campus));
+    } catch (err) {
+      console.error(err);
+    }
   };
 };
 
