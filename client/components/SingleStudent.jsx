@@ -9,10 +9,9 @@ const SingleStudent = (props) => {
   useEffect(() => {
     props.getSingleStudent(props.match.params.id);
   }, []);
-  console.log('props', props);
   const { firstName, lastName, imageUrl, email, gpa } = props.student;
   const campus = props.student.campus || {};
-  return campus.id ? (
+  return firstName ? (
     <div id='singleStudentContainer'>
       <div id='singleStudent'>
         <h2>
@@ -20,19 +19,19 @@ const SingleStudent = (props) => {
         </h2>
         <img src={imageUrl} />
         <div className='studentInfo'>
-          <p>
+          <div className='studentDetail'>
             <div className='label'>Email Address</div>
             {email}
-          </p>
-          <p>
+          </div>
+          <div className='studentDetail'>
             <div className='label'>GPA</div>
-            {gpa}
-          </p>
+            {gpa || 'N/A'}
+          </div>
           {campus.id ? (
-            <p>
+            <div className='studentDetail'>
               <div className='label'>Campus</div>
               <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
-            </p>
+            </div>
           ) : (
             <p>Student is currently on leave.</p>
           )}
@@ -46,6 +45,7 @@ const SingleStudent = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log('state', state);
   return {
     student: state.student,
   };

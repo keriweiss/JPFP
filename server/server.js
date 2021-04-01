@@ -9,6 +9,8 @@ app.use('/dist', express.static(path.join(__dirname, '../dist')));
 app.use('/assets', express.static(path.join(__dirname, '../assets')));
 app.use('/api', router);
 
+app.use(express.json());
+
 app.get('/', async (req, res, next) => {
   try {
     res.sendFile(path.join(__dirname, '../assets/index.html'));
@@ -28,3 +30,5 @@ const init = async () => {
 };
 
 init();
+
+module.exports = app;

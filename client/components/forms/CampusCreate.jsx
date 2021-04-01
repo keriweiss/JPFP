@@ -56,8 +56,7 @@ const CampusCreate = (props) => {
         <button
           type='button'
           onClick={() => {
-            if (!isEnabled) setRequired(false);
-            if (isEnabled) setRequired(true);
+            !isEnabled ? setRequired(false) : setRequired(true);
             setIsClicked(!isClicked);
           }}
         >

@@ -8,8 +8,12 @@ router.get('/students', async (req, res, next) => {
   try {
     const page = req.query.page;
     const students = await Students.findAll();
-    const studentResult = students.slice((page - 1) * 10, page * 10);
-    res.send({ students: studentResult, length: students.length });
+    if (!page) {
+      res.send(students);
+    } else {
+      const studentResult = students.slice((page - 1) * 10, page * 10);
+      res.send({ students: studentResult, length: students.length });
+    }
   } catch (err) {
     next(err);
   }
@@ -31,7 +35,7 @@ router.get('/campuses', async (req, res, next) => {
 router.get('/students/:id', async (req, res, next) => {
   try {
     const student = await Students.findByPk(req.params.id, {
-      include: [Campuses],
+      include: [{ model: Campuses, required: false }],
     });
     res.send(student);
   } catch (err) {

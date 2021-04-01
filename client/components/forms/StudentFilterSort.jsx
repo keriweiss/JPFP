@@ -47,9 +47,10 @@ const StudentFilterSort = (props) => {
         props.studentPool.slice().sort((a, b) => (a.gpa > b.gpa ? -1 : 1))
       );
     if (basis.includes('search')) {
+      const nname = basis.slice(7).toLowerCase();
       const student = props.students.filter((student) => {
         const name = `${student.firstName} ${student.lastName}`;
-        return name.toLowerCase().includes(basis.slice(7).toLowerCase());
+        return name.toLowerCase().includes(nname);
       });
       props.setStudentPool(student);
     }

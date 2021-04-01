@@ -13,13 +13,17 @@ const StudentCreate = (props) => {
 
   const [newStudent, setNewStudent] = useState(defaultNewStudent);
   const [isClicked, setIsClicked] = useState(false);
+  const [required, setRequired] = useState(true);
 
   const initialRender = useRef(true);
+  const isEnabled =
+    newStudent.firstName && newStudent.lastName && newStudent.email;
 
   useEffect(() => {
+    console.log(isEnabled);
     if (initialRender.current) {
       initialRender.current = false;
-    } else {
+    } else if (isEnabled) {
       if (newStudent.gpa === '') newStudent.gpa = null;
       if (newStudent.campusId === '') newStudent.campusId = null;
       props.createStudent(newStudent);
@@ -88,11 +92,18 @@ const StudentCreate = (props) => {
       <button
         type='button'
         onClick={() => {
+          !isEnabled ? setRequired(false) : setRequired(true);
           setIsClicked(!isClicked);
         }}
       >
         Add Student
       </button>
+      {!required ? (
+        <div id='studentCreateRequired'>
+          Please fill out all required fields (first name, last name, and
+          email).
+        </div>
+      ) : null}
     </form>
   );
 };

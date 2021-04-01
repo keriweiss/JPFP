@@ -30,8 +30,9 @@ const Pagination = ({
       >
         <span className='page pointer'>{'<'}</span>
       </Link>
-      {pages.slice(startIdx, currentPage + 2).map((page) => (
+      {pages.slice(startIdx, startIdx + 5).map((page) => (
         <Link
+          key={page}
           to={`students?page=${page + 1}`}
           onClick={() => setCurrentPage(page + 1)}
         >
@@ -42,7 +43,7 @@ const Pagination = ({
           </span>
         </Link>
       ))}
-      {currentPage !== pages.length ? (
+      {currentPage < pages.length - 2 ? (
         <span>
           ...
           <Link to={`students?page=${pages.length}`}>
