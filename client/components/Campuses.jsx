@@ -15,6 +15,11 @@ const Campuses = (props) => {
 
   const initialRender = useRef(1);
 
+  const slicePool = campusPool.slice(
+    (currentPage - 1) * campusesPerPage,
+    currentPage * campusesPerPage
+  );
+
   //handles URL queries
   useEffect(() => {
     const params = new URLSearchParams(props.location.search);
@@ -29,22 +34,12 @@ const Campuses = (props) => {
     if (props.campuses.length && initialRender.current === 1) {
       setCampusPool(props.campuses);
       initialRender.current += 1;
-      setDisplayedCampuses(
-        campusPool.slice(
-          (currentPage - 1) * campusesPerPage,
-          currentPage * campusesPerPage
-        )
-      );
+      setDisplayedCampuses(slicePool);
     }
     if (campusChange) {
       console.log('test campusAadded');
       setCampusPool(props.campuses);
-      setDisplayedCampuses(
-        campusPool.slice(
-          (currentPage - 1) * campusesPerPage,
-          currentPage * campusesPerPage
-        )
-      );
+      setDisplayedCampuses(slicePool);
       location = '#/campuses?page=1';
       isCampusChange(false);
     }
@@ -55,23 +50,13 @@ const Campuses = (props) => {
   useEffect(() => {
     if (currentPage === 0) setCurrentPage(1);
     if (props.campuses.length && initialRender.current !== 1) {
-      setDisplayedCampuses(
-        campusPool.slice(
-          (currentPage - 1) * campusesPerPage,
-          currentPage * campusesPerPage
-        )
-      );
+      setDisplayedCampuses(slicePool);
     }
   }, [currentPage]);
 
   //handles changes to campus pool (filtering and sorting change the pool)
   useEffect(() => {
-    setDisplayedCampuses(
-      campusPool.slice(
-        (currentPage - 1) * campusesPerPage,
-        currentPage * campusesPerPage
-      )
-    );
+    setDisplayedCampuses(slicePool);
   }, [campusPool, campusesPerPage]);
 
   return (

@@ -1,13 +1,16 @@
-const request = require('supertest');
 const chai = require('chai');
 const { expect } = require('chai');
 const axios = require('axios');
 
-const express = require('express');
-
-const app = require('../server/server');
+// let app;
+const app = require('supertest')(_app);
 
 const { db, Campuses, Students } = require('../server/db/db');
+
+beforeEach(async () => {
+  // app = require('../server/server');
+  // await db.sync({ force: true });
+});
 
 // import React from 'react';
 // const StudentsComp = require('../client/components/Students.jsx');
@@ -94,25 +97,54 @@ describe('Back End', () => {
 
   describe('Express', () => {
     describe('Student Get request', () => {
-      let allStudents;
+      let storedStudents;
+      const students = [
+        {
+          firstName: 'Jason',
+          lastName: 'Alexander',
+          email: 'jayal@email.com',
+          gpa: '1.0',
+        },
+        {
+          firstName: 'Bill',
+          lastName: 'Withers',
+          email: 'billyW@email.com',
+          gpa: '4.0',
+        },
+      ];
       beforeEach(async () => {
-        // await db.sync();
-        allStudents = await Students.findAll();
+        // await db.sync({ force: true });
+        try {
+          const createdStudents = await Students.bulkCreate(students);
+          storedStudents = createdStudents.map((student) => student.dataValues);
+        } catch (err) {
+          console.log(err);
+        }
+        // console.log(createdStudents);
+        // storedStudents = await Students.findAll();
       });
 
       it('responds with all students', async () => {
+        try {
+          const response = await app.get('/api/students');
+          // console.log(response);
+          expect(response).to.have.length(0);
+          expect(response[0].firstName).to.equal(storedStudents[0].firstName);
+        } catch (err) {
+          console.log(err);
+        }
         // const response = await getStudents();
         // const response = (await axios.get('/api/students')).data;
         // const response = (
         //   await request.get('http://localhost:1234/api/students')
         // ).data;
-        const response = await request(app).get('/api/students');
-        console.log(response);
-        try {
-          expect(response.length).to.equal(allStudents.length);
-        } catch (err) {
-          throw Error(err);
-        }
+        // const response = await app.get('/api/students');
+
+        // try {
+        //   // expect(response.length).to.equal(allStudents.length);
+        // } catch (err) {
+        //   throw Error(err);
+        // }
       });
     });
   });

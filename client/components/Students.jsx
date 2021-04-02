@@ -15,6 +15,12 @@ const Students = (props) => {
 
   const initialRender = useRef(1);
 
+  //var to get students to display
+  const slicePool = studentPool.slice(
+    (currentPage - 1) * studentsPerPage,
+    currentPage * studentsPerPage
+  );
+
   //handles URL queries
   useEffect(() => {
     const params = new URLSearchParams(props.location.search);
@@ -29,21 +35,11 @@ const Students = (props) => {
     if (props.students.length && initialRender.current === 1) {
       setStudentPool(props.students);
       initialRender.current += 1;
-      setDisplayedStudents(
-        studentPool.slice(
-          (currentPage - 1) * studentsPerPage,
-          currentPage * studentsPerPage
-        )
-      );
+      setDisplayedStudents(slicePool);
     }
     if (studentChanged === true) {
       setStudentPool(props.students);
-      setDisplayedStudents(
-        studentPool.slice(
-          (currentPage - 1) * studentsPerPage,
-          currentPage * studentsPerPage
-        )
-      );
+      setDisplayedStudents(slicePool);
       setCurrentPage(0);
       isStudentChanged(false);
     }
@@ -54,23 +50,13 @@ const Students = (props) => {
   useEffect(() => {
     if (currentPage === 0) setCurrentPage(1);
     if (props.students.length && initialRender.current !== 1) {
-      setDisplayedStudents(
-        studentPool.slice(
-          (currentPage - 1) * studentsPerPage,
-          currentPage * studentsPerPage
-        )
-      );
+      setDisplayedStudents(slicePool);
     }
   }, [currentPage]);
 
   //handles changes to student pool (filtering and sorting change the pool)
   useEffect(() => {
-    setDisplayedStudents(
-      studentPool.slice(
-        (currentPage - 1) * studentsPerPage,
-        currentPage * studentsPerPage
-      )
-    );
+    setDisplayedStudents(slicePool);
   }, [studentPool, studentsPerPage]);
 
   return (
@@ -100,7 +86,6 @@ const Students = (props) => {
             <button
               type='button'
               onClick={() => {
-                console.log('id', student.id);
                 props.deleteStudent(student.id);
                 isStudentChanged(true);
               }}

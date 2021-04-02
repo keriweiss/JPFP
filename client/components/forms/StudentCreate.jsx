@@ -20,7 +20,6 @@ const StudentCreate = (props) => {
     newStudent.firstName && newStudent.lastName && newStudent.email;
 
   useEffect(() => {
-    console.log(isEnabled);
     if (initialRender.current) {
       initialRender.current = false;
     } else if (isEnabled) {

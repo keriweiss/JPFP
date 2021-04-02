@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const ItemsPerPage = (props) => {
-  console.log(props.itemsPerPage);
   const [viewPage, setViewPage] = useState(props.itemsPerPage);
 
   return (
@@ -16,7 +15,6 @@ const ItemsPerPage = (props) => {
           }
           key={option}
           onClick={() => {
-            console.log(viewPage);
             props.setItemsPerPage(option[1]);
             setViewPage(option[1]);
             props.setCurrentPage(1);

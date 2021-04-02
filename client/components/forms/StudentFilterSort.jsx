@@ -60,6 +60,7 @@ const StudentFilterSort = (props) => {
         const name = `${student.firstName} ${student.lastName}`;
         return name.toLowerCase().includes(nname);
       });
+      props.setCurrentPage(1);
       props.setStudentPool(student);
     }
   }, [basis]);

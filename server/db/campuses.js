@@ -3,7 +3,7 @@ const faker = require('faker');
 let campuses;
 
 if (!campuses) {
-  campuses = new Array(100).fill(null).map(() => {
+  campuses = new Array(60).fill(null).map(() => {
     const { image, address, lorem } = faker;
     return {
       name: `${address.city()}`,
