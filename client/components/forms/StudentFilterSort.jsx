@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { filterSortStudent } from '../../redux/actions/filterSortStudent';
+import ItemsPerPage from './ItemsPerPage';
 
 const StudentFilterSort = (props) => {
   const [basis, setBasis] = useState('');
-  const [viewPage, setViewPage] = useState(props.studentsPerPage);
 
   const viewOptions = [
     [10, 10],
@@ -67,24 +67,15 @@ const StudentFilterSort = (props) => {
   return (
     <div id='allStudentsSelect'>
       <div id='viewNum'>
-        <span id='pagesView'>
-          <span id='view'>{props.studentPool.length} students | View</span>
-          {viewOptions.map((option) => (
-            <span
-              className={
-                option[1] === viewPage ? 'current viewOption' : 'viewOption'
-              }
-              key={option}
-              onClick={() => {
-                console.log(viewPage);
-                props.setStudentsPerPage(option[1]);
-                setViewPage(option[1]);
-              }}
-            >
-              {option[0]}
-            </span>
-          ))}
-        </span>
+        <ItemsPerPage
+          pool={props.studentPool}
+          setItemsPerPage={props.setStudentsPerPage}
+          items={props.students}
+          itemsPerPage={props.studentsPerPage}
+          item='students'
+          viewOptions={viewOptions}
+          setCurrentPage={props.setCurrentPage}
+        />
       </div>
       <div id='search'>
         <label

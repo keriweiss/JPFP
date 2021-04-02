@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import ItemsPerPage from './ItemsPerPage';
 
 const CampusFilterSort = (props) => {
   const [basis, setBasis] = useState('');
+
+  const viewOptions = [
+    [9, 9],
+    [45, 45],
+    [90, 90],
+    ['All', props.campuses.length],
+  ];
 
   useEffect(() => {
     if (basis === 'active')
@@ -30,6 +38,17 @@ const CampusFilterSort = (props) => {
   }, [basis]);
   return (
     <div id='allCampusSelect'>
+      <div id='viewNum'>
+        <ItemsPerPage
+          pool={props.campusPool}
+          setItemsPerPage={props.setCampusesPerPage}
+          items={props.campuses}
+          itemsPerPage={props.campusesPerPage}
+          item='campuses'
+          viewOptions={viewOptions}
+          setCurrentPage={props.setCurrentPage}
+        />
+      </div>
       <div id='filter'>
         FILTER
         <select

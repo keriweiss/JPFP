@@ -83,6 +83,7 @@ const Students = (props) => {
         studentPool={studentPool}
         setStudentsPerPage={setStudentsPerPage}
         studentsPerPage={studentsPerPage}
+        setCurrentPage={setCurrentPage}
       />
       <div id='students'>
         {displayedStudents.map((student) => (

@@ -424,6 +424,7 @@ div#studentCreateRequired {
 
 .currentPage {
   color: #a02222;
+  border-bottom: 1px solid #a02222;
 }
 
 .page:hover {
@@ -568,4 +569,5 @@ div#studentCreateRequired {
 
 .current {
   color: #a02222;
+  border-bottom: 1px solid #a02222;
 }

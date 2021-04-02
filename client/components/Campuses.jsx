@@ -72,13 +72,19 @@ const Campuses = (props) => {
         currentPage * campusesPerPage
       )
     );
-  }, [campusPool]);
+  }, [campusPool, campusesPerPage]);
 
   return (
     <div id='campusesWrapper'>
       <h2>CAMPUSES</h2>
       <CampusCreate isCampusAdded={isCampusChange} />
-      <CampusFilterSort setCampusPool={setCampusPool} campusPool={campusPool} />
+      <CampusFilterSort
+        setCampusPool={setCampusPool}
+        campusPool={campusPool}
+        campusesPerPage={campusesPerPage}
+        setCampusesPerPage={setCampusesPerPage}
+        setCurrentPage={setCurrentPage}
+      />
       <div id='campusesPageContainer'>
         <div id='campusesContainer'>
           {displayedCampuses.map((campus) => (
@@ -111,6 +117,7 @@ const Campuses = (props) => {
         setCurrentPage={setCurrentPage}
         pool={campusPool}
         location='campuses?page'
+        itemsPerPage={campusesPerPage}
       />
     </div>
   );
