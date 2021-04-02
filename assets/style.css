@@ -52,7 +52,8 @@ button:hover {
   background-color: #801c1c;
 }
 
-input {
+input,
+textarea {
   padding: 5px;
   margin: 5px;
 }
@@ -67,10 +68,18 @@ input {
 
 /* CAMPUSES */
 
+#campusesWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #campusesPageContainer {
   display: flex;
   text-align: center;
-  justify-content: space-around;
+  /* justify-content: space-around; */
+  align-content: space-around;
+  flex-direction: column;
 }
 
 .campusImgContainer {
@@ -104,7 +113,7 @@ input {
 
 #campusesContainer {
   display: inline-grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
 }
 
 .campus a:hover #campusTitle {
@@ -116,9 +125,21 @@ input {
   flex-direction: column;
   width: 400px;
   border: 2px black solid;
-  padding: 20px;
+  padding: 4px;
 }
 
+#campusCreate input {
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+}
+
+#campusCreate textarea {
+  border: none;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  outline: none;
+}
 /* STUDENTS */
 
 #students {
@@ -216,12 +237,6 @@ div#studentCreateRequired {
   border-bottom: 1px solid black;
   width: 90%;
   margin: 2px;
-}
-
-#studentCreate input:focus,
-#studentCreate select:focus {
-  border: none;
-  border-bottom: 1px solid black;
   outline: none;
 }
 
@@ -370,9 +385,8 @@ div#studentCreateRequired {
   justify-content: space-evenly;
   /* margin-top: 10px; */
   margin: 20px 0 0 0;
-  width: 60%;
+  width: 90%;
   font-size: small;
-  font-weight: bolder;
   color: rgb(190, 190, 190);
 }
 
@@ -388,6 +402,7 @@ div#studentCreateRequired {
 #pages {
   display: flex;
   margin-bottom: 20px;
+  align-self: center;
 }
 
 .page {
@@ -520,6 +535,23 @@ div#studentCreateRequired {
   color: #801c1c;
   cursor: text;
 }
+#viewNum {
+  display: flex;
+}
+
+#pagesView span:hover {
+  color: rgba(160, 34, 34, 1);
+  cursor: default;
+}
+
+#view {
+  color: black;
+}
+
+#viewNum span {
+  align-self: center;
+  margin-right: 20px;
+}
 
 /* LOADER */
 #loading {
@@ -532,4 +564,8 @@ div#studentCreateRequired {
   font-weight: bolder;
   font-size: x-large;
   letter-spacing: 0.8em;
+}
+
+.current {
+  color: #a02222;
 }

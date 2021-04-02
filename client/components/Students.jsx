@@ -24,19 +24,25 @@ const Students = (props) => {
       : setCurrentPage(props.location.search ? pageNum : 1);
   }, [props.location.search]);
 
-  //handles changes is props.students
+  //handles changes in props.students
   useEffect(() => {
     if (props.students.length && initialRender.current === 1) {
       setStudentPool(props.students);
       initialRender.current += 1;
       setDisplayedStudents(
-        studentPool.slice((currentPage - 1) * 10, currentPage * 10)
+        studentPool.slice(
+          (currentPage - 1) * studentsPerPage,
+          currentPage * studentsPerPage
+        )
       );
     }
     if (studentChanged === true) {
       setStudentPool(props.students);
       setDisplayedStudents(
-        studentPool.slice((currentPage - 1) * 10, currentPage * 10)
+        studentPool.slice(
+          (currentPage - 1) * studentsPerPage,
+          currentPage * studentsPerPage
+        )
       );
       setCurrentPage(0);
       isStudentChanged(false);
@@ -49,7 +55,10 @@ const Students = (props) => {
     if (currentPage === 0) setCurrentPage(1);
     if (props.students.length && initialRender.current !== 1) {
       setDisplayedStudents(
-        studentPool.slice((currentPage - 1) * 10, currentPage * 10)
+        studentPool.slice(
+          (currentPage - 1) * studentsPerPage,
+          currentPage * studentsPerPage
+        )
       );
     }
   }, [currentPage]);
@@ -57,9 +66,12 @@ const Students = (props) => {
   //handles changes to student pool (filtering and sorting change the pool)
   useEffect(() => {
     setDisplayedStudents(
-      studentPool.slice((currentPage - 1) * 10, currentPage * 10)
+      studentPool.slice(
+        (currentPage - 1) * studentsPerPage,
+        currentPage * studentsPerPage
+      )
     );
-  }, [studentPool]);
+  }, [studentPool, studentsPerPage]);
 
   return (
     <div id='studentContainer'>
@@ -69,6 +81,8 @@ const Students = (props) => {
         setCurrentPage={setCurrentPage}
         setStudentPool={setStudentPool}
         studentPool={studentPool}
+        setStudentsPerPage={setStudentsPerPage}
+        studentsPerPage={studentsPerPage}
       />
       <div id='students'>
         {displayedStudents.map((student) => (
@@ -96,10 +110,12 @@ const Students = (props) => {
         ))}
       </div>
       <Pagination
-        studentsPerPage={studentsPerPage}
+        instancesPerPage={studentsPerPage}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        studentPool={studentPool}
+        pool={studentPool}
+        location='students?page'
+        itemsPerPage={studentsPerPage}
       />
     </div>
   );

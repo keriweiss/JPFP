@@ -1,12 +1,15 @@
+const request = require('supertest');
+const chai = require('chai');
 const { expect } = require('chai');
 const axios = require('axios');
 
+const express = require('express');
+
 const app = require('../server/server');
-const getStudents = require('./students');
 
 const { db, Campuses, Students } = require('../server/db/db');
 
-import React from require('react');
+// import React from 'react';
 // const StudentsComp = require('../client/components/Students.jsx');
 // import Campuses from '../client/components/Campuses.jsx';
 
@@ -93,15 +96,17 @@ describe('Back End', () => {
     describe('Student Get request', () => {
       let allStudents;
       beforeEach(async () => {
+        // await db.sync();
         allStudents = await Students.findAll();
       });
 
       it('responds with all students', async () => {
         // const response = await getStudents();
         // const response = (await axios.get('/api/students')).data;
-        // const response = (await axios.get('http://localhost:1234/api/students'))
-        //   .data;
-        const response = (await app.get('/api/students')).body;
+        // const response = (
+        //   await request.get('http://localhost:1234/api/students')
+        // ).data;
+        const response = await request(app).get('/api/students');
         console.log(response);
         try {
           expect(response.length).to.equal(allStudents.length);

@@ -25,48 +25,43 @@ const CampusCreate = (props) => {
     }
   }, [isClicked]);
   return (
-    <div>
-      <h4>Add Campus</h4>
-      <form id='campusCreate' encType='multipart/form-data'>
-        <label>Campus Name</label>
-        <input
-          placeholder='required'
-          name='campusName'
-          value={newCampus.name}
-          onChange={(e) => setNewCampus({ ...newCampus, name: e.target.value })}
-        />
-        <label>Address: </label>
-        <input
-          placeholder='required'
-          name='address'
-          value={newCampus.address}
-          onChange={(e) =>
-            setNewCampus({ ...newCampus, address: e.target.value })
-          }
-        />
-        <label>Description:</label>
-        <textarea
-          rows='4'
-          name='description'
-          value={newCampus.description}
-          onChange={(e) =>
-            setNewCampus({ ...newCampus, description: e.target.value })
-          }
-        />
-        <button
-          type='button'
-          onClick={() => {
-            !isEnabled ? setRequired(false) : setRequired(true);
-            setIsClicked(!isClicked);
-          }}
-        >
-          Add Campus
-        </button>
-        {!required ? (
-          <div>Please fill out all required fields (name and address).</div>
-        ) : null}
-      </form>
-    </div>
+    <form id='campusCreate' encType='multipart/form-data'>
+      <input
+        placeholder='NAME'
+        name='campusName'
+        value={newCampus.name}
+        onChange={(e) => setNewCampus({ ...newCampus, name: e.target.value })}
+      />
+      <input
+        placeholder='ADDRESS'
+        name='address'
+        value={newCampus.address}
+        onChange={(e) =>
+          setNewCampus({ ...newCampus, address: e.target.value })
+        }
+      />
+      <textarea
+        placeholder='DESCRIPTION'
+        rows='4'
+        name='description'
+        value={newCampus.description}
+        onChange={(e) =>
+          setNewCampus({ ...newCampus, description: e.target.value })
+        }
+      />
+      <button
+        type='button'
+        onClick={() => {
+          !isEnabled ? setRequired(false) : setRequired(true);
+          setIsClicked(!isClicked);
+        }}
+      >
+        Add Campus
+      </button>
+      {!required ? (
+        <div>Please fill out all required fields (name and address).</div>
+      ) : null}
+    </form>
   );
 };
 

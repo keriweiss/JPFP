@@ -4,6 +4,14 @@ import { filterSortStudent } from '../../redux/actions/filterSortStudent';
 
 const StudentFilterSort = (props) => {
   const [basis, setBasis] = useState('');
+  const [viewPage, setViewPage] = useState(props.studentsPerPage);
+
+  const viewOptions = [
+    [10, 10],
+    [50, 50],
+    [100, 100],
+    ['All', props.students.length],
+  ];
 
   //filters and sorts students, and search for student/(s). Feature: filter sorted students and sort filtered students.
   useEffect(() => {
@@ -58,6 +66,26 @@ const StudentFilterSort = (props) => {
 
   return (
     <div id='allStudentsSelect'>
+      <div id='viewNum'>
+        <span id='pagesView'>
+          <span id='view'>{props.studentPool.length} students | View</span>
+          {viewOptions.map((option) => (
+            <span
+              className={
+                option[1] === viewPage ? 'current viewOption' : 'viewOption'
+              }
+              key={option}
+              onClick={() => {
+                console.log(viewPage);
+                props.setStudentsPerPage(option[1]);
+                setViewPage(option[1]);
+              }}
+            >
+              {option[0]}
+            </span>
+          ))}
+        </span>
+      </div>
       <div id='search'>
         <label
           id='searchSubmit'

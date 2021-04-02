@@ -6,29 +6,28 @@ const CampusFilterSort = (props) => {
 
   useEffect(() => {
     if (basis === 'active')
-      props.setDisplayedCampuses(
+      props.setCampusPool(
         props.campuses.filter((campus) => campus.students.length)
       );
     if (basis === 'idle')
-      props.setDisplayedCampuses(
+      props.setCampusPool(
         props.campuses.filter((campus) => !campus.students.length)
       );
-    if (basis === 'all') props.setDisplayedCampuses(props.campuses);
+    if (basis === 'all') props.setCampusPool(props.campuses);
     if (basis === 'ascending') {
-      console.log(props.campuses);
-      props.setDisplayedCampuses(
-        props.campuses
+      props.setCampusPool(
+        props.campusPool
           .slice()
           .sort((a, b) => a.students.length - b.students.length)
       );
     }
     if (basis === 'descending')
-      props.setDisplayedCampuses(
-        props.campuses
+      props.setCampusPool(
+        props.campusPool
           .slice()
           .sort((a, b) => b.students.length - a.students.length)
       );
-  });
+  }, [basis]);
   return (
     <div id='allCampusSelect'>
       <div id='filter'>
@@ -37,6 +36,7 @@ const CampusFilterSort = (props) => {
           id='campusFilter'
           onChange={(e) => {
             setBasis(e.target.value);
+            location = '#/campuses?page=1';
           }}
         >
           <option value='all'>All Campuses</option>
@@ -50,6 +50,7 @@ const CampusFilterSort = (props) => {
           id='campusFilter'
           onChange={(e) => {
             setBasis(e.target.value);
+            location = '#/campuses?page=1';
           }}
         >
           <option>Sort By</option>
