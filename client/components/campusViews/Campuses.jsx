@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import CampusCreate from './forms/CampusCreate';
-import { deleteCampus } from '.././redux/actions/deleteCampus';
-import CampusFilterSort from './forms/CampusFilterSort';
-import Pagination from './Pagination';
+import CampusCreate from '../forms/CampusCreate';
+import { deleteCampus } from '../../redux/actions/deleteCampus';
+import CampusFilterSort from '../forms/CampusFilterSort';
+import Pagination from '../Pagination';
 
 const Campuses = (props) => {
   const [displayedCampuses, setDisplayedCampuses] = useState([]);

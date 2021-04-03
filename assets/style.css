@@ -96,6 +96,12 @@ textarea {
   height: 300px;
   overflow: hidden;
   margin: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.campusImgContainer img {
+  display: block;
 }
 
 .campus a {
@@ -566,4 +572,14 @@ div#studentCreateRequired {
   font-weight: bolder;
   font-size: x-large;
   letter-spacing: 0.8em;
+}
+
+/* PAGE NOT FOUND */
+
+#notFound {
+  margin: 20px;
+}
+
+#notFound a:hover {
+  color: rgba(160, 34, 34, 1);
 }

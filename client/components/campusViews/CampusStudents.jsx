@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateStudent } from '../redux/actions/updateStudent';
+import { updateStudent } from '../../redux/actions/updateStudent';
 import { Hashrouter as Router, Link, Route, Switch } from 'react-router-dom';
 
 const CampusStudents = (props) => {

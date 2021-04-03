@@ -1,16 +1,16 @@
 const chai = require('chai');
 const { expect } = require('chai');
 const axios = require('axios');
-
-// let app;
-const app = require('supertest')(_app);
+const supertest = require('supertest');
+const app = require('../server/server');
 
 const { db, Campuses, Students } = require('../server/db/db');
 
 beforeEach(async () => {
-  // app = require('../server/server');
-  // await db.sync({ force: true });
+  await db.sync({ force: true });
 });
+afterEach(() => db.sync({ force: true }));
+after(() => db.close());
 
 // import React from 'react';
 // const StudentsComp = require('../client/components/Students.jsx');
@@ -96,55 +96,36 @@ describe('Back End', () => {
   });
 
   describe('Express', () => {
+    let storedStudents;
+    const students = [
+      {
+        firstName: 'Jason',
+        lastName: 'Alexander',
+        email: 'jayal@email.com',
+        gpa: '1.0',
+      },
+      {
+        firstName: 'Bill',
+        lastName: 'Withers',
+        email: 'billyW@email.com',
+        gpa: '4.0',
+      },
+    ];
+    beforeEach(async () => {
+      const createdStudents = await Students.bulkCreate(students);
+      storedStudents = createdStudents.map((student) => student.dataValues);
+    });
     describe('Student Get request', () => {
-      let storedStudents;
-      const students = [
-        {
-          firstName: 'Jason',
-          lastName: 'Alexander',
-          email: 'jayal@email.com',
-          gpa: '1.0',
-        },
-        {
-          firstName: 'Bill',
-          lastName: 'Withers',
-          email: 'billyW@email.com',
-          gpa: '4.0',
-        },
-      ];
-      beforeEach(async () => {
-        // await db.sync({ force: true });
-        try {
-          const createdStudents = await Students.bulkCreate(students);
-          storedStudents = createdStudents.map((student) => student.dataValues);
-        } catch (err) {
-          console.log(err);
-        }
-        // console.log(createdStudents);
-        // storedStudents = await Students.findAll();
-      });
-
       it('responds with all students', async () => {
-        try {
-          const response = await app.get('/api/students');
-          // console.log(response);
-          expect(response).to.have.length(0);
-          expect(response[0].firstName).to.equal(storedStudents[0].firstName);
-        } catch (err) {
-          console.log(err);
-        }
-        // const response = await getStudents();
-        // const response = (await axios.get('/api/students')).data;
-        // const response = (
-        //   await request.get('http://localhost:1234/api/students')
-        // ).data;
-        // const response = await app.get('/api/students');
-
-        // try {
-        //   // expect(response.length).to.equal(allStudents.length);
-        // } catch (err) {
-        //   throw Error(err);
-        // }
+        const response = (await supertest(app).get('/api/students')).body;
+        expect(response).to.have.length(2);
+        expect(response[0].firstName).to.equal(storedStudents[0].firstName);
+      });
+    });
+    describe('student :id get request', () => {
+      it('responds with single student by id', async () => {
+        const response = (await supertest(app).get('/api/students/2')).body;
+        expect(response.firstName).to.equal('Bill');
       });
     });
   });

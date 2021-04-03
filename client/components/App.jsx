@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Campuses from './Campuses.jsx';
-import Students from './Students.jsx';
+import Campuses from './campusViews/Campuses.jsx';
+import Students from './studentViews/Students.jsx';
 import { getStudents } from '../redux/actions/getStudents';
 import { getCampuses } from '../redux/actions/getCampuses';
 import { connect } from 'react-redux';
 import { HashRouter as Router, Link, Switch, Route } from 'react-router-dom';
-import SingleCampus from './SingleCampus.jsx';
-import SingleStudent from './SingleStudent.jsx';
+import SingleCampus from './campusViews/SingleCampus.jsx';
+import SingleStudent from './studentViews/SingleStudent.jsx';
 import Home from './Home.jsx';
 import Nav from './Nav.jsx';
 import Footer from './Footer.jsx';

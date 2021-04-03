@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Hashrouter as Router, Link, Route, Switch } from 'react-router-dom';
-import CampusUpdate from './forms/CampusUpdate';
-import { getSingleCampus } from '../redux/actions/getSingleCampus';
-import { updateStudent } from '../redux/actions/updateStudent';
+import CampusUpdate from '../forms/CampusUpdate';
+import { getSingleCampus } from '../../redux/actions/getSingleCampus';
+import { updateStudent } from '../../redux/actions/updateStudent';
 import CampusStudents from './CampusStudents';
 
 const Campus = (props) => {

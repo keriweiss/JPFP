@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { HashRouter as Route, Link, Switch, Router } from 'react-router-dom';
-import { getSingleStudent } from '../redux/actions/getSingleStudent';
-import StudentUpdate from './forms/StudentUpdate';
-import PageNotFound from './PageNotFound';
+import { getSingleStudent } from '../../redux/actions/getSingleStudent';
+import StudentUpdate from '../forms/StudentUpdate';
+import PageNotFound from '../PageNotFound';
 
 const SingleStudent = (props) => {
   useEffect(() => {
@@ -45,7 +45,6 @@ const SingleStudent = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log('state', state);
   return {
     student: state.student,
   };
