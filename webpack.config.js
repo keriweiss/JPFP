@@ -1,5 +1,5 @@
 module.exports = {
-  entry: ['./client/index.js'],
+  entry: ['./client/index.js', '@babel/polyfill'],
   output: {
     path: __dirname,
     filename: './dist/main.js',

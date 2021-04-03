@@ -21,13 +21,15 @@ const Campuses = (props) => {
   );
 
   //handles URL queries
-  useEffect(() => {
-    const params = new URLSearchParams(props.location.search);
-    let pageNum = parseInt(params.get('page'));
-    pageNum > Math.ceil(props.campuses.length / campusesPerPage)
-      ? (location = '#/campuses?page=1')
-      : setCurrentPage(props.location.search ? pageNum : 1);
-  }, [props.location.search]);
+  if (props.hasOwnProperty('location')) {
+    useEffect(() => {
+      const params = new URLSearchParams(props.location.search);
+      let pageNum = parseInt(params.get('page'));
+      pageNum > Math.ceil(props.campuses.length / campusesPerPage)
+        ? (location = '#/campuses?page=1')
+        : setCurrentPage(props.location.search ? pageNum : 1);
+    }, [props.location.search]);
+  }
 
   //handles changes in props.campuses
   useEffect(() => {

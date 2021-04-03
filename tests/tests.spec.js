@@ -1,3 +1,5 @@
+// import 'jsdom-global/register';
+
 const chai = require('chai');
 const { expect } = require('chai');
 const axios = require('axios');
@@ -9,12 +11,26 @@ const { db, Campuses, Students } = require('../server/db/db');
 beforeEach(async () => {
   await db.sync({ force: true });
 });
-afterEach(() => db.sync({ force: true }));
+// afterEach(() => db.sync({ force: true }));
 after(() => db.close());
 
-// import React from 'react';
-// const StudentsComp = require('../client/components/Students.jsx');
-// import Campuses from '../client/components/Campuses.jsx';
+// import PropTypes from 'prop-types';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router';
+import React from 'react';
+import enzyme, { shallow, mount } from 'enzyme';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+enzyme.configure({ adapter: new Adapter() });
+
+import { default as StudentList } from '../client/components/studentViews/Students';
+import { default as CampusList } from '../client/components/campusViews/Campuses.jsx';
+
+// import { render } from '@testing-library/react';
+
+//mock store
+import configureStore from 'redux-mock-store';
+const middlewares = [];
+const mockStore = configureStore(middlewares);
 
 describe('Back End', () => {
   describe('Sequelize', () => {
@@ -131,11 +147,109 @@ describe('Back End', () => {
   });
 });
 
-// describe('Front End', () => {
-//   describe('React', () => {
-//     describe('Students component', () => {
-//       const studentComponent = <StudentsComp students={[]} />;
-//       expect(studentComponent.find('studentWithButton')).to.have.length(0);
-//     });
-//   });
-// });
+describe('Front End', () => {
+  const studentsArr = [
+    {
+      firstName: 'Shelley',
+      lastName: 'Duvall',
+      email: 'theatretheatre@gmail.com',
+      gpa: 3,
+    },
+    {
+      firstName: 'Barack',
+      lastName: 'Obama',
+      email: 'bigheart@email.com',
+      gpa: 4.0,
+    },
+    {
+      firstName: 'Mandy',
+      lastName: 'Patinken',
+      email: 'anigomontoya@tpb.com',
+      gpa: 2.5,
+    },
+  ];
+  describe('React', () => {
+    describe('Students component', () => {
+      it('renders no students if passed an empty array', () => {
+        const store = mockStore({
+          students: [],
+        });
+        const wrapper = shallow(
+          <Provider store={store}>
+            <StudentList />
+          </Provider>
+        );
+
+        expect(wrapper.find('p')).to.have.length(0);
+      });
+      it('renders students for students passed in as props', async () => {
+        const store = mockStore({
+          students: studentsArr,
+          campuses: [],
+        });
+        const wrapper = mount(
+          <Provider store={store}>
+            <MemoryRouter>
+              <StudentList />
+            </MemoryRouter>
+          </Provider>
+        );
+        const mrouter = wrapper.find(MemoryRouter);
+        const studentList = mrouter.find(StudentList);
+        const studentContainers = studentList.find('p');
+        expect(studentContainers).to.have.length(3);
+      });
+    });
+    describe('Campuse Components', () => {
+      const campusArr = [
+        {
+          name: 'Dubai',
+          address: 'Obviously somewhere in Dubai',
+          students: [],
+        },
+        {
+          name: 'Waikiki',
+          address: 'Over the rainbow',
+          students: [],
+        },
+        {
+          name: 'NYC',
+          address: 'Big Apple',
+          students: [],
+        },
+        {
+          name: 'Eden',
+          address: 'Garden Of Eden',
+          students: [],
+        },
+      ];
+      it('renders no campuses if passed an empty array', () => {
+        const store = mockStore({
+          campuses: [],
+        });
+        const wrapper = shallow(
+          <Provider store={store}>
+            <CampusList campuses={[]} />
+          </Provider>
+        );
+        expect(wrapper.find('p')).to.have.length(0);
+      });
+      it('renders campuses for campuses passed in as props', () => {
+        const store = mockStore({
+          campuses: campusArr,
+        });
+        const wrapper = mount(
+          <Provider store={store}>
+            <MemoryRouter>
+              <CampusList campuses={campusArr} />
+            </MemoryRouter>
+          </Provider>
+        );
+        const mrouter = wrapper.find(MemoryRouter);
+        const campusList = mrouter.find(CampusList);
+        const campusContainers = campusList.find('p');
+        expect(campusContainers).to.have.length(4);
+      });
+    });
+  });
+});
