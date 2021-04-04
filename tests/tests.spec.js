@@ -1,4 +1,4 @@
-// import 'jsdom-global/register';
+import 'jsdom-global/register';
 
 const chai = require('chai');
 const { expect } = require('chai');
@@ -16,19 +16,28 @@ after(() => db.close());
 
 // import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, Link } from 'react-router';
 import React from 'react';
 import enzyme, { shallow, mount } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 enzyme.configure({ adapter: new Adapter() });
 
+//import components
 import { default as StudentList } from '../client/components/studentViews/Students';
 import { default as CampusList } from '../client/components/campusViews/Campuses.jsx';
+import Nav from '../client/components/Nav';
+
+// import reducers
+import rootReducer from '../client/redux/reducers/rootReducer';
+import studentsReducer from '../client/redux/reducers/studentsReducer';
+import campusesReducer from '../client/redux/reducers/campusesReducer';
 
 // import { render } from '@testing-library/react';
 
 //mock store
 import configureStore from 'redux-mock-store';
+import { GET_CAMPUSES } from '../client/redux/actions/getCampuses';
+import { GET_STUDENTS } from '../client/redux/actions/getStudents';
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
@@ -168,6 +177,29 @@ describe('Front End', () => {
       gpa: 2.5,
     },
   ];
+  const campusArr = [
+    {
+      name: 'Dubai',
+      address: 'Obviously somewhere in Dubai',
+      students: [],
+    },
+    {
+      name: 'Waikiki',
+      address: 'Over the rainbow',
+      students: [],
+    },
+    {
+      name: 'NYC',
+      address: 'Big Apple',
+      students: [],
+    },
+    {
+      name: 'Eden',
+      address: 'Garden Of Eden',
+      students: [],
+    },
+  ];
+
   describe('React', () => {
     describe('Students component', () => {
       it('renders no students if passed an empty array', () => {
@@ -200,29 +232,8 @@ describe('Front End', () => {
         expect(studentContainers).to.have.length(3);
       });
     });
-    describe('Campuse Components', () => {
-      const campusArr = [
-        {
-          name: 'Dubai',
-          address: 'Obviously somewhere in Dubai',
-          students: [],
-        },
-        {
-          name: 'Waikiki',
-          address: 'Over the rainbow',
-          students: [],
-        },
-        {
-          name: 'NYC',
-          address: 'Big Apple',
-          students: [],
-        },
-        {
-          name: 'Eden',
-          address: 'Garden Of Eden',
-          students: [],
-        },
-      ];
+
+    describe('Campuses Components', () => {
       it('renders no campuses if passed an empty array', () => {
         const store = mockStore({
           campuses: [],
@@ -249,6 +260,57 @@ describe('Front End', () => {
         const campusList = mrouter.find(CampusList);
         const campusContainers = campusList.find('p');
         expect(campusContainers).to.have.length(4);
+      });
+    });
+  });
+
+  describe('redux reducers', () => {
+    describe('campuses', () => {
+      it('returns the initial state by default', () => {
+        expect(campusesReducer(undefined, {})).to.deep.equal([]);
+      });
+      it('returns a new state with the updated campuses', () => {
+        const newState = campusesReducer([], {
+          type: GET_CAMPUSES,
+          campuses: campusArr,
+        });
+        expect(newState).to.deep.equal(campusArr);
+      });
+    });
+
+    describe('students', () => {
+      it('returns the initial state by default', () => {
+        expect(studentsReducer(undefined, {})).to.deep.equal([]);
+      });
+      it('returns a new state with the updated students', () => {
+        const newState = studentsReducer([], {
+          type: GET_STUDENTS,
+          students: studentsArr,
+        });
+        expect(newState).to.deep.equal(studentsArr);
+      });
+    });
+  });
+
+  describe('navigation', () => {
+    describe('nav bar navigates home, campuses, and students', () => {
+      it('navigates home', () => {
+        const wrapper = shallow(<Nav />);
+        expect(wrapper.find('Link').filter('#homeLink').props().to).to.equal(
+          '/'
+        );
+      });
+      it('navigates to campuses', () => {
+        const wrapper = shallow(<Nav />);
+        expect(
+          wrapper.find('Link').filter('#campusesLink').props().to
+        ).to.equal('/campuses');
+      });
+      it('navigates home', () => {
+        const wrapper = shallow(<Nav />);
+        expect(
+          wrapper.find('Link').filter('#studentsLink').props().to
+        ).to.equal('/students');
       });
     });
   });

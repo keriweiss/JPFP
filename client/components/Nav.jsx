@@ -8,13 +8,13 @@ const Nav = () => {
         <Link to='/' id='snuniversityNav'>
           SNUniversity
         </Link>
-        <Link to='/' className='navLink'>
+        <Link to='/' className='navLink' id='homeLink'>
           Home
         </Link>
-        <Link to='/students' className='navLink'>
+        <Link to='/students' className='navLink' id='studentsLink'>
           Students
         </Link>
-        <Link to='/campuses' className='navLink'>
+        <Link to='/campuses' className='navLink' id='campusesLink'>
           Campuses
         </Link>
       </div>
