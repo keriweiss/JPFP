@@ -10,4 +10,6 @@ server on port 1234 : http://localhost:1234/
 
 heroku: https://keri-jpfp.herokuapp.com/
 
+Testing: npm test
+
 Enjoy!!

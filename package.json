@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "build": "webpack",
-    "test": "mocha ./tests --watch --require @babel/register --require @babel/polyfill",
+    "test": "mocha ./tests --require @babel/register --require @babel/polyfill",
     "build:dev": "npm run build -- --watch --mode=development",
     "start:dev": "npm run build:dev & nodemon server/index.js --ignore dist/ --ignore src/",
     "start": "node server/index.js"
