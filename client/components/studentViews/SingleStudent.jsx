@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { HashRouter as Route, Link, Switch, Router } from 'react-router-dom';
 import { getSingleStudent } from '../../redux/actions/getSingleStudent';
@@ -9,8 +9,15 @@ const SingleStudent = (props) => {
   useEffect(() => {
     props.getSingleStudent(props.match.params.id);
   }, []);
+
+  //rerenders route when props.match.params.id changes
+  useEffect(() => {
+    props.getSingleStudent(props.match.params.id);
+  }, [props.match.params.id]);
+
   const { firstName, lastName, imageUrl, email, gpa } = props.student;
   const campus = props.student.campus || {};
+
   return firstName ? (
     <div id='singleStudentContainer'>
       <div id='singleStudent'>

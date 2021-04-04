@@ -13,6 +13,11 @@ const Campus = (props) => {
     props.getSingleCampus(props.match.params.id);
   }, []);
 
+  //rerenders route when props.match.params.id changes
+  useEffect(() => {
+    props.getSingleCampus(props.match.params.id);
+  }, [props.match.params.id]);
+
   const { name, imageUrl, address, description } = props.campus;
 
   return (
