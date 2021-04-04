@@ -11,6 +11,7 @@ import Home from './Home.jsx';
 import Nav from './Nav.jsx';
 import Footer from './Footer.jsx';
 import Loading from './Loading.jsx';
+import PageNotFound from './PageNotFound.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class App extends Component {
                 <Route exact path='/campuses' component={Campuses} />
                 <Route eaxt path='/campuses/:id' component={SingleCampus} />
                 <Route exact path='/students/:id' component={SingleStudent} />
+                <Route path='*' component={PageNotFound} />
               </Switch>
             )}
           </div>
