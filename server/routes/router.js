@@ -11,6 +11,9 @@ router.get('/students', async (req, res, next) => {
     if (!page) {
       res.send(students);
     } else {
+      //i really like this implementation of pagination
+      //another approach would be to use the sequelize `limit` and `offset` options
+      //https://sequelize.org/master/manual/model-querying-basics.html#limits-and-pagination
       const studentResult = students.slice((page - 1) * 10, page * 10);
       res.send({ students: studentResult, length: students.length });
     }
@@ -72,6 +75,7 @@ router.post('/campuses', async (req, res, next) => {
 router.post('/students', async (req, res, next) => {
   try {
     const { firstName, lastName, email, gpa } = req.body;
+    //i really like this!
     const campusId = req.body.campusId ? req.body.campusId : null;
     res.send(
       await Students.create({

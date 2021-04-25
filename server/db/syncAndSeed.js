@@ -5,6 +5,7 @@ const { getStudent } = require('./students');
 const syncAndSeed = async () => {
   try {
     await db.sync({ force: true });
+    //could also use Campuses.bulkCreate() and pass in the array of campuses directly
     await Promise.all(
       campuses.map(({ name, imageUrl, address, description }) =>
         Campuses.create({ name, imageUrl, address, description })
